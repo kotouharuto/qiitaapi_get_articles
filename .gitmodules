@@ -1,0 +1,3 @@
+[submodule "qiitaapi_get_articles"]
+	path = qiitaapi_get_articles
+	url = https://github.com/kotouharuto/qiitaapi_get_articles.git

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qiita記事一覧</title>
+    <style>
+        /* Apple公式サイト風のスタイリング */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Arial", sans-serif;
+            background-color: #f5f5f7;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        /* ナビゲーションバー */
+        .navbar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            font-size: 24px;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 記事コンテナ */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        /* 記事カード */
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 記事タイトル */
+        .card h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* 記事の説明 */
+        .card p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* リンクボタン */
+        .read-more {
+            display: inline-block;
+            margin-top: 10px;
+            color: #0071e3;
+            font-weight: 600;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .read-more:hover {
+            opacity: 0.7;
+        }
+
+        /* 記事の作成日 */
+        .date {
+            font-size: 12px;
+            color: #aaa;
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+        }
+
+        /* ページネーションのスタイル */
+        .pagination {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 5px;
+            background: white;
+            color: #0071e3;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background: #0071e3;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .pagination .current-page {
+            background: #0071e3;
+            color: white;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <h1>AI Qiita Articles</h1>
+    </header>
+
+    <div class="container">
+        {% for article in articles %}
+            <div class="card">
+                <h2>{{ article.title }}</h2>
+                <a href="{{ article.url }}" class="read-more" target="_blank">記事を読む →</a>
+                <p class="date">{{ article.created_at|date:"Y/m/d" }}</p>
+            </div>
+        {% empty %}
+            <p>記事がありません。</p>
+        {% endfor %}
+    </div>
+
+    {% if articles.paginator.num_pages > 1 %}
+    <div class="pagination">
+        {% if articles.has_previous %}
+            <a href="?page=1">最初</a>
+            <a href="?page={{ articles.previous_page_number }}">前へ</a>
+        {% endif %}
+
+        <span class="current-page">{{ articles.number }} / {{ articles.paginator.num_pages }}</span>
+
+        {% if articles.has_next %}
+            <a href="?page={{ articles.next_page_number }}">次へ</a>
+            <a href="?page={{ articles.paginator.num_pages }}">最後</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</html>
