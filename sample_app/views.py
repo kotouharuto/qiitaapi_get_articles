@@ -3,7 +3,8 @@
 Qiita記事の取得・表示に関するエンドポイントを提供。
 手動での記事取得とページ表示機能を実装。
 """
-from sample_app.services import fetch_qiita_articles
+
+from .services import fetch_qiita_articles
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator
