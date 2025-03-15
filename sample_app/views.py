@@ -4,14 +4,11 @@ Qiita記事の取得・表示に関するエンドポイントを提供。
 手動での記事取得とページ表示機能を実装。
 """
 
-from .services import fetch_qiita_articles
+from sample_app.services import fetch_qiita_articles
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from .models import QiitaArticle
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 def get_qiita_articles(request):
     """API endpoint for fetching articles"""
