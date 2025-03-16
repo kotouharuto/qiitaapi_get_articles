@@ -14,6 +14,11 @@ from django.core.paginator import Paginator
 from models import QiitaArticle
 import sys
 import os
+import django
+
+# Django の設定を明示的に読み込む
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
+django.setup()
 
 # Djangoプロジェクトのルートディレクトリをsys.pathに追加
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '')))
