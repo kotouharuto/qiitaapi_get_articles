@@ -16,6 +16,9 @@ import sys
 import os
 import django
 
+# プロジェクトのルートディレクトリを sys.path に追加
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 # Django の設定を明示的に読み込む
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
 django.setup()
