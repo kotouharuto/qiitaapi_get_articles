@@ -6,7 +6,10 @@ Qiita記事の取得タスクを非同期処理として実装。
 from celery import shared_task
 from celery.schedules import crontab
 import logging
-from .services import fetch_qiita_articles
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from services import fetch_qiita_articles
 from .celery import app
 
 logger = logging.getLogger(__name__)
