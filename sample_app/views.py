@@ -7,13 +7,11 @@ Qiita記事の取得・表示に関するエンドポイントを提供。
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from services import fetch_qiita_articles
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from sample_app.models import QiitaArticle
-import sys
-import os
+from .models import QiitaArticle
+from .services import fetch_qiita_articles
 import django
 
 # プロジェクトのルートディレクトリを sys.path に追加
