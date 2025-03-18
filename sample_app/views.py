@@ -11,7 +11,7 @@ from services import fetch_qiita_articles
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from models import QiitaArticle
+from .models import QiitaArticle
 import sys
 import os
 import django
