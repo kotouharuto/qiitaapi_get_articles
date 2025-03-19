@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from .models import QiitaArticle
+from sample_app.models import QiitaArticle
 from .services import fetch_qiita_articles
 import django
 
