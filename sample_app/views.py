@@ -21,16 +21,30 @@ django.setup()
 from .models import QiitaArticle
 from .services import fetch_qiita_articles
 
-def get_qiita_articles(request):
-    """API endpoint for fetching articles"""
+def get_qiita_articles():
+    """記事を取得してJSON形式で返す"""
     articles = fetch_qiita_articles()
-    data = [{
-        "title": article.title,
-        "url": article.url,
-        "author": article.author,
-        "created_at": article.created_at
-    } for article in articles]
-    return JsonResponse({"status": "success", "articles": data})
+    if articles:
+        data = [{
+            "title": article.title,
+            "url": article.url,
+            "author": article.author,
+            "created_at": article.created_at
+        } for article in articles]
+        return {"status": "success", "articles": data}
+    return {"status": "error", "message": "記事の取得に失敗しました"}
+
+def get_articles_for_display(page=1):
+    """ページネーション付きで記事を取得"""
+    articles_list = QiitaArticle.objects.all().order_by('-created_at')
+    paginator = Paginator(articles_list, 10)
+    
+    try:
+        page_number = int(page)
+    except ValueError:
+        page_number = 1
+    
+    return paginator.get_page(page_number)
 
 def qiita_articles_page(request):
     # 全記事を取得して日付順にソート
