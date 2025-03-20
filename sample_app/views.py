@@ -11,7 +11,10 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator
 
-# Djangoの設定を初期化
+# プロジェクトのルートディレクトリを sys.path に追加
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Django の設定を明示的に読み込む
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
 django.setup()
 
