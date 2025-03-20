@@ -4,26 +4,19 @@ Qiita記事の取得・表示に関するエンドポイントを提供。
 手動での記事取得とページ表示機能を実装。
 """
 
-import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import django
+import sys
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from sample_app.models import QiitaArticle
-from .services import fetch_qiita_articles
-import django
 
-# プロジェクトのルートディレクトリを sys.path に追加
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-# Django の設定を明示的に読み込む
+# Djangoの設定を初期化
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
 django.setup()
 
-# Djangoプロジェクトのルートディレクトリをsys.pathに追加
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '')))
-
+from .models import QiitaArticle
+from .services import fetch_qiita_articles
 
 def get_qiita_articles(request):
     """API endpoint for fetching articles"""
@@ -36,27 +29,12 @@ def get_qiita_articles(request):
     } for article in articles]
     return JsonResponse({"status": "success", "articles": data})
 
-# def qiita_articles_page(request):
-#     """記事一覧ページの表示"""
-#     articles = fetch_qiita_articles()
-#     return render(request, 'qiita_articles.html', {'articles': articles})
-
-# def home(request):
-#     articles_list = fetch_qiita_articles().order_by('-created_at')
-#     # articles_list = QiitaArticle.objects.all().order_by('-created_at')  # 記事を日付順にソート
-#     paginator = Paginator(articles_list, 20)  # 1ページに20件表示
-
-#     page_number = request.GET.get('page')
-#     articles = paginator.get_page(page_number)
-
-#     return render(request, 'qiita_articles.html', {'articles': articles})
-
 def qiita_articles_page(request):
     # 全記事を取得して日付順にソート
     articles_list = QiitaArticle.objects.all().order_by('-created_at')
     
     # 1ページあたり10件表示
-    paginator = Paginator(articles_list, 20)
+    paginator = Paginator(articles_list, 10)
     
     # GETパラメータから現在のページ番号を取得（デフォルトは1）
     page_number = request.GET.get('page', 1)
