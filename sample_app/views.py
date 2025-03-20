@@ -18,8 +18,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
 django.setup()
 
-from .models import QiitaArticle
-from .services import fetch_qiita_articles
+# 相対インポートを絶対インポートに変更
+from sample_app.models import QiitaArticle
+from sample_app.services import fetch_qiita_articles
 
 def get_qiita_articles():
     """記事を取得してJSON形式で返す"""
